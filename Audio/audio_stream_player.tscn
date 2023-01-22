@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://djxxxqhmjtu22"]
+
+[ext_resource type="AudioStream" uid="uid://djktpuaxuvela" path="res://Audio/Ambient_Music_1.wav" id="1_2oawn"]
+[ext_resource type="AudioStream" uid="uid://b6ltggbxjtxnq" path="res://Audio/Ambient_Music_2.wav" id="2_qgngj"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sktd8"]
+streams_count = 2
+random_pitch = 1.0
+random_volume_offset_db = 0.0
+stream_0/stream = ExtResource("1_2oawn")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_qgngj")
+stream_1/weight = 1.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer"]
+stream = SubResource("AudioStreamRandomizer_sktd8")
+autoplay = true
+bus = &"Ambient Music"

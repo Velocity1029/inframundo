@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://7gv6q50fuutj"]
+[gd_scene load_steps=9 format=3 uid="uid://7gv6q50fuutj"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_1w47b"]
 [ext_resource type="PackedScene" uid="uid://dbduds4bsaaby" path="res://Scenes/Bullet/Bullet.tscn" id="2_je25s"]
 [ext_resource type="Script" path="res://Scenes/Player/Interaction.gd" id="3_lyxik"]
 [ext_resource type="Script" path="res://Scenes/Player/Hand.gd" id="4_cvese"]
 [ext_resource type="Script" path="res://Scenes/Player/Inventory.gd" id="5_8osg7"]
+[ext_resource type="PackedScene" uid="uid://cwd17wtu68wci" path="res://Audio/PlayerSoundAudioStream.tscn" id="6_7eqp2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_emkox"]
 
@@ -46,7 +47,7 @@ script = ExtResource("3_lyxik")
 player = NodePath("../../..")
 
 [node name="Hand" type="Node3D" parent="Head/Camera3d"]
-transform = Transform3D(1, 0, 0, 0, 0.964865, 0.262745, 0, -0.262745, 0.964865, 0.362013, -0.208757, -0.585052)
+transform = Transform3D(1, 0, 0, 0, 0.964865, 0.262745, 0, -0.262745, 0.964865, 0.521606, -0.391849, -0.585)
 script = ExtResource("4_cvese")
 
 [node name="Handheld" type="RigidBody3D" parent="Head/Camera3d/Hand"]
@@ -57,3 +58,5 @@ can_sleep = false
 
 [node name="Inventory" type="Node3D" parent="."]
 script = ExtResource("5_8osg7")
+
+[node name="AudioStreamPlayer3D" parent="." instance=ExtResource("6_7eqp2")]

@@ -1,0 +1,27 @@
+[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://ct31bta356fxu"]
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_0v4j2"]
+resource_name = "Reverb"
+wet = 0.62
+
+[resource]
+bus/1/name = &"Ambient Music"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"
+bus/2/name = &"Player Sounds"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = -0.723771
+bus/2/send = &"Master"
+bus/3/name = &"RvMed"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = &"Master"
+bus/3/effect/0/effect = SubResource("AudioEffectReverb_0v4j2")
+bus/3/effect/0/enabled = true
