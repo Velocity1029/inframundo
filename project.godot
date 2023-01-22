@@ -54,6 +54,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://Interactable/Bases/Interactable.gd"
 }, {
+"base": "Node3D",
+"class": &"Inventory",
+"language": &"GDScript",
+"path": "res://Scenes/Player/Inventory.gd"
+}, {
 "base": "Interactable",
 "class": &"Takeable",
 "language": &"GDScript",
@@ -74,6 +79,7 @@ _global_script_class_icons={
 "Grabable": "",
 "Holder": "",
 "Interactable": "",
+"Inventory": "",
 "Takeable": "",
 "Torch": ""
 }
