@@ -61,4 +61,3 @@ can_sleep = false
 script = ExtResource("5_8osg7")
 
 [node name="AudioStreamPlayer3D" parent="." instance=ExtResource("6_7eqp2")]
-bus = &"Master"

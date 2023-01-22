@@ -39,4 +39,3 @@ light_volumetric_fog_energy = 0.709
 [node name="Map" parent="." instance=ExtResource("2_w1x5t")]
 
 [node name="AudioStreamPlayer" parent="." instance=ExtResource("3_so1rd")]
-bus = &"Master"
