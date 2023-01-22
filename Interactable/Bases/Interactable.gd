@@ -7,6 +7,3 @@ func get_interaction_text():
 	
 func interact(_player):
 	print("Interacted with %s" % name)
-	
-func apply(_player, item):
-	print("Applied ", item.name," to ",name)

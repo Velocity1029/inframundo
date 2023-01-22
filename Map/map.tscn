@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dpv25wji6bnkh"]
+[gd_scene load_steps=5 format=3 uid="uid://dpv25wji6bnkh"]
 
 [ext_resource type="MeshLibrary" uid="uid://o713og06jn8a" path="res://Map/dungeon_tileset.tres" id="1_7v1op"]
 [ext_resource type="PackedScene" uid="uid://cwabye07yp71e" path="res://Scenes/Torch/torch.tscn" id="2_h7bi1"]
+[ext_resource type="PackedScene" uid="uid://crwjo46hs245m" path="res://Scenes/Pot/Pot.tscn" id="3_yaqxb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xb5yl"]
 size = Vector3(10.256, 1, 1)
@@ -48,6 +49,11 @@ start_lit = true
 
 [node name="torch3" parent="Props" instance=ExtResource("2_h7bi1")]
 transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -1.92301, 1.78535, 3.11374)
+
+[node name="Pot" parent="Props" instance=ExtResource("3_yaqxb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.40478, 0.145172, 1.33422)
+liquid = "oil"
+amount = 500
 
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(1.30546, 0, 0, 0, 1, 0, 0, 0, 1.47322, -1.02504, 0, 0)

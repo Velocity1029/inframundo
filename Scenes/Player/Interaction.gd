@@ -15,7 +15,8 @@ func _process(_delta):
 			
 		if Input.is_action_just_pressed("Apply"):
 			if  player.Hand.heldObject:
-				collider.apply(player, player.Hand.heldObject)
+				#collider.apply(player, player.Hand.heldObject)
+				player.Hand.heldObject.apply(player, collider)
 			else:
 				print("No held object!")
 			

@@ -8,8 +8,8 @@ var hand = null
 @onready var home = get_parent()
 
 func interact(player):    
-	if player.equip(self):
-		holder = player
+	player.equip(self)
+	holder = player
 	
 func setHeld(Hand):
 	hand = Hand
@@ -21,6 +21,8 @@ func setHeld(Hand):
 	hand.add_child(self)
 
 func thrown():
+	holder = null
+	hand = null
 	isHeld = false
 	var gtransform = global_transform
 	

@@ -12,7 +12,6 @@ func _ready():
 func use():
 	if uses < 1:
 		consume()
-		holder.throw()
 		return false
 	if !CONSUMABLE:
 		return true
@@ -20,8 +19,11 @@ func use():
 	uses -= 1
 	if uses < 1:
 		consume()
-		holder.throw()
 	return true
-		
+
+func apply(_player, item):
+	print("Applied ", name," to ", item.name)
+
 func consume():
+	#Broken ? Nil holder holder.throw()
 	pass
