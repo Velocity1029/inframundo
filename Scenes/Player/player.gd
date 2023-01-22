@@ -137,23 +137,24 @@ func pickup(item):
 	Inv.addItem(item)
 	item.hide()
 	
-	equip(item)
+	if Hand.getHeldObject() == null:
+		equip(item)
 	
 func drop(item):
 	Inv.removeItem(item)
 
 func equip(item):
-	if Hand.getHeldObject() == null:
-		print("Equipping %s" % item)
-		
+
+	print("Equipping %s" % item)
+	
+	if item != null:
 		item.set_freeze_enabled(true)
-		
 		item.setHeld(Hand)
-		Hand.setHeldObject(item)
-		
 		item.show()
-		return true
-	return false
+	
+	Hand.setHeldObject(item)
+	
+	return true
 
 func throw():
 	var item = Hand.getHeldObject()
@@ -174,14 +175,14 @@ func throw():
 func swap_item():
 	print("Swapping")
 	var item = Inv.swapItem()
-	
-	if item != null:
+
+	if Hand.getHeldObject():
 		Hand.getHeldObject().hide()
-		item.setHeld(Hand)
 	
-		item.show()
-		
 	Hand.setHeldObject(item)
+	
+	equip(item)
+	
 
 
 

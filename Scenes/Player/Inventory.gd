@@ -30,7 +30,8 @@ func isFull():
 	return items.size() >= inventory_size
 	
 func swapItem():
-	print(items.size())
+	if items.size <= 0:
+		return
 	equipped = (equipped + 1) % (items.size())
 	print(equipped)
 	return equipItem(items[equipped])
