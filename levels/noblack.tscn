@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://dl23d86gsvx0e"]
+
+[ext_resource type="PackedScene" uid="uid://7gv6q50fuutj" path="res://Scenes/Player/player.tscn" id="1_dnoym"]
+[ext_resource type="PackedScene" uid="uid://dpv25wji6bnkh" path="res://Map/map.tscn" id="2_w1x5t"]
+
+[sub_resource type="Environment" id="Environment_l5pxq"]
+background_mode = 2
+background_color = Color(0.2139, 0.570975, 0.69, 1)
+background_energy_multiplier = 0.0
+ambient_light_color = Color(1, 0.933333, 0.772549, 1)
+ambient_light_sky_contribution = 0.0
+ambient_light_energy = 0.02
+glow_enabled = true
+glow_bloom = 0.09
+glow_blend_mode = 0
+fog_enabled = true
+fog_light_color = Color(0.203922, 0.223529, 0.270588, 1)
+fog_density = 0.0
+fog_height = -4.0
+fog_height_density = 0.2
+volumetric_fog_enabled = true
+
+[node name="Node3d" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_l5pxq")
+
+[node name="Player" parent="." instance=ExtResource("1_dnoym")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.20047, 0.952065, 1.58585)
+
+[node name="DirectionalLight3d" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.966349, 0.250904, -0.0567091, 0.182362, -0.512743, 0.838951, 0.181419, -0.821061, -0.541244, -0.00693703, 59.5145, -109.348)
+visible = false
+light_energy = 4.691
+light_indirect_energy = 16.0
+light_volumetric_fog_energy = 0.709
+
+[node name="Map" parent="." instance=ExtResource("2_w1x5t")]

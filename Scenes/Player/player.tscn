@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://7gv6q50fuutj"]
+
+[ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_1w47b"]
+[ext_resource type="PackedScene" uid="uid://dbduds4bsaaby" path="res://Scenes/Bullet/Bullet.tscn" id="2_je25s"]
+[ext_resource type="Script" path="res://Scenes/Player/Interaction.gd" id="3_lyxik"]
+[ext_resource type="Script" path="res://Scenes/Player/Hand.gd" id="4_cvese"]
+[ext_resource type="Script" path="res://Scenes/Player/Inventory.gd" id="5_8osg7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_emkox"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6b3ky"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Hand")]
+script = ExtResource("1_1w47b")
+_bullet_scene = ExtResource("2_je25s")
+Hand = NodePath("Head/Camera3d/Hand")
+
+[node name="CollisionShape3d" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_emkox")
+
+[node name="MeshInstance3d" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("CapsuleMesh_6b3ky")
+
+[node name="Head" type="Node3D" parent="."]
+
+[node name="Camera3d" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.468, 0)
+
+[node name="RayCast3d" type="RayCast3D" parent="Head/Camera3d"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00588068, 0.463024)
+target_position = Vector3(0, 0, -60)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Head/Camera3d"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0202254, 0.408232)
+light_color = Color(1, 0.933333, 0.772549, 1)
+light_energy = 0.1
+spot_range = 17.3435
+spot_angle = 60.4817
+
+[node name="InteractionRayCast" type="RayCast3D" parent="Head/Camera3d" node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.240585)
+target_position = Vector3(0, 0, -2.5)
+collision_mask = 2
+script = ExtResource("3_lyxik")
+player = NodePath("../../..")
+
+[node name="Hand" type="Node3D" parent="Head/Camera3d"]
+transform = Transform3D(1, 0, 0, 0, 0.964865, 0.262745, 0, -0.262745, 0.964865, 0.362013, -0.208757, -0.585052)
+script = ExtResource("4_cvese")
+
+[node name="Handheld" type="RigidBody3D" parent="Head/Camera3d/Hand"]
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+can_sleep = false
+
+[node name="Inventory" type="Node3D" parent="."]
+script = ExtResource("5_8osg7")
