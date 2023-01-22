@@ -5,6 +5,7 @@ extends CharacterBody3D
 @onready var Collider = $CollisionShape3d as CollisionShape3D
 @export var _bullet_scene : PackedScene
 @export var Hand : Holder
+@export var Inv : Inventory
 var mouseSensibility = 200
 var mouse_relative_x = 0
 var mouse_relative_y = 0
@@ -66,6 +67,8 @@ func _physics_process(delta):
 		walk()
 	if Input.is_action_just_released("Walk"):
 		stop_walk()
+	if Input.is_action_just_released("Swap"):
+		swap_item()
 		
 		
 	# Get the input direction and handle the movement/deceleration.
@@ -128,17 +131,30 @@ func stop_walk():
 
 # ITEM HANDLING
 
-func equip(item):
+func pickup(item):
+	if Inv.isFull():
+		return false
+	Inv.addItem(item)
+	item.hide()
+	
 	if Hand.getHeldObject() == null:
-		print("Equipping %s" % item)
-		
+		equip(item)
+	
+func drop(item):
+	Inv.removeItem(item)
+
+func equip(item):
+
+	print("Equipping %s" % item)
+	
+	if item != null:
 		item.set_freeze_enabled(true)
-		
 		item.setHeld(Hand)
-		Hand.setHeldObject(item)
-		
-		return true
-	return false
+		item.show()
+	
+	Hand.setHeldObject(item)
+	
+	return true
 
 func throw():
 	var item = Hand.getHeldObject()
@@ -151,9 +167,22 @@ func throw():
 		Hand.thrown()
 		item.apply_impulse(-1 * Cam.global_transform.basis.z * THROW_STRENGTH)
 		
+		drop(item)
+		
 		return true
 	return false
+	
+func swap_item():
+	print("Swapping")
+	var item = Inv.swapItem()
 
+	if Hand.getHeldObject():
+		Hand.getHeldObject().hide()
+	
+	Hand.setHeldObject(item)
+	
+	equip(item)
+	
 
 
 
