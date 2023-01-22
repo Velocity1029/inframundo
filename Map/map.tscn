@@ -53,9 +53,7 @@ transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 
 home = NodePath("..")
 
 [node name="Area3D" type="Area3D" parent="."]
-audio_bus_name = &"Player Sounds"
 reverb_bus_enabled = true
-reverb_bus_name = &"RvMed"
 reverb_bus_amount = 0.63
 reverb_bus_uniformity = 0.6
 
