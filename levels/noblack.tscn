@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dl23d86gsvx0e"]
+[gd_scene load_steps=5 format=3 uid="uid://dl23d86gsvx0e"]
 
 [ext_resource type="PackedScene" uid="uid://7gv6q50fuutj" path="res://Scenes/Player/player.tscn" id="1_dnoym"]
 [ext_resource type="PackedScene" uid="uid://dpv25wji6bnkh" path="res://Map/map.tscn" id="2_w1x5t"]
+[ext_resource type="PackedScene" uid="uid://djxxxqhmjtu22" path="res://Audio/audio_stream_player.tscn" id="3_so1rd"]
 
 [sub_resource type="Environment" id="Environment_l5pxq"]
 background_mode = 2
@@ -36,3 +37,6 @@ light_indirect_energy = 16.0
 light_volumetric_fog_energy = 0.709
 
 [node name="Map" parent="." instance=ExtResource("2_w1x5t")]
+
+[node name="AudioStreamPlayer" parent="." instance=ExtResource("3_so1rd")]
+bus = &"Master"
