@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dpv25wji6bnkh"]
 
 [ext_resource type="MeshLibrary" uid="uid://o713og06jn8a" path="res://Map/dungeon_tileset.tres" id="1_7v1op"]
-[ext_resource type="PackedScene" uid="uid://cwabye07yp71e" path="res://Scenes/Torch/torch.tscn" id="2_86d77"]
+[ext_resource type="PackedScene" uid="uid://cwabye07yp71e" path="res://Scenes/Torch/torch.tscn" id="2_h7bi1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xb5yl"]
 size = Vector3(10.256, 1, 1)
@@ -39,18 +39,15 @@ metadata/_editor_floor_ = Vector3(0, -3, 0)
 
 [node name="Props" type="Node3D" parent="."]
 
-[node name="torch" parent="Props" node_paths=PackedStringArray("home") instance=ExtResource("2_86d77")]
-transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -1.88597, 1.29944, 0.748973)
-home = NodePath("..")
+[node name="torch" parent="Props" instance=ExtResource("2_h7bi1")]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -1.92301, 1.78535, 0.815453)
 
-[node name="torch2" parent="Props" node_paths=PackedStringArray("home") instance=ExtResource("2_86d77")]
-transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -1.88597, 1.29944, 2.07908)
+[node name="torch2" parent="Props" instance=ExtResource("2_h7bi1")]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -1.92301, 1.78535, 1.90798)
 start_lit = true
-home = NodePath("..")
 
-[node name="torch3" parent="Props" node_paths=PackedStringArray("home") instance=ExtResource("2_86d77")]
-transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -1.88597, 1.29944, 3.55614)
-home = NodePath("..")
+[node name="torch3" parent="Props" instance=ExtResource("2_h7bi1")]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -1.92301, 1.78535, 3.11374)
 
 [node name="Area3D" type="Area3D" parent="."]
 audio_bus_name = &"Player Sounds"

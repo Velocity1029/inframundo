@@ -5,7 +5,7 @@ class_name Equippable
 var isHeld = false
 var holder = null
 var hand = null
-@export var home : Node3D
+@onready var home = get_parent()
 
 func interact(player):    
 	if player.equip(self):
