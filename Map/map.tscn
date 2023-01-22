@@ -50,7 +50,8 @@ start_lit = true
 transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -1.92301, 1.78535, 3.11374)
 
 [node name="Area3D" type="Area3D" parent="."]
-audio_bus_name = &"Player Sounds"
+transform = Transform3D(1.30546, 0, 0, 0, 1, 0, 0, 0, 1.47322, -1.02504, 0, 0)
+audio_bus_name = &"RvEffected"
 reverb_bus_enabled = true
 reverb_bus_name = &"RvMed"
 reverb_bus_amount = 0.63
@@ -58,4 +59,36 @@ reverb_bus_uniformity = 0.6
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(0.76284, 0, 0, 0, 5.0048, 0, 0, 0, 7.84656, 2.01551, 2.51815, 0)
+shape = SubResource("BoxShape3D_xb5yl")
+
+[node name="Area3D2" type="Area3D" parent="."]
+audio_bus_name = &"RvEffected"
+reverb_bus_enabled = true
+reverb_bus_name = &"RvSmall"
+reverb_bus_amount = 0.63
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D2"]
+transform = Transform3D(0.862852, 0, 0, 0, 5.0048, 0, 0, 0, 16.0759, -1.98108, 2.51815, -11.9366)
+shape = SubResource("BoxShape3D_xb5yl")
+
+[node name="Area3D3" type="Area3D" parent="."]
+transform = Transform3D(0.677559, 0, 0, 0, 2.33359, 0, 0, 0, 1, -3.56346, -3.19889, 16.0555)
+audio_bus_name = &"RvEffected"
+reverb_bus_enabled = true
+reverb_bus_name = &"RvSmall"
+reverb_bus_amount = 0.63
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D3"]
+transform = Transform3D(0.862852, 0, 0, 0, 5.0048, 0, 0, 0, 16.0759, -1.98108, 2.51815, -11.9366)
+shape = SubResource("BoxShape3D_xb5yl")
+
+[node name="Area3D4" type="Area3D" parent="."]
+transform = Transform3D(-2.37068e-08, 0, -1, 0, 2.16249, 0, 0.542349, 0, -4.37114e-08, -7.51687, -5.87444, 11.3464)
+audio_bus_name = &"Player Sounds"
+reverb_bus_enabled = true
+reverb_bus_name = &"RvEffected"
+reverb_bus_amount = 0.63
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D4"]
+transform = Transform3D(0.862852, 0, 0, 0, 5.0048, 0, 0, 0, 16.0759, -1.98108, 2.51815, -11.9366)
 shape = SubResource("BoxShape3D_xb5yl")
