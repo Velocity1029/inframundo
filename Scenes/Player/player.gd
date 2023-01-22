@@ -3,17 +3,19 @@ extends CharacterBody3D
 @onready var gunRay = $Head/Camera3d/RayCast3d as RayCast3D
 @onready var Cam = $Head/Camera3d as Camera3D
 @onready var Collider = $CollisionShape3d as CollisionShape3D
+@onready var original_position = Hand.position
 @export var _bullet_scene : PackedScene
 @export var Hand : Holder
 @export var Inv : Inventory
 var mouseSensibility = 200
 var mouse_relative_x = 0
 var mouse_relative_y = 0
+var delta_sum = 0
 var speed
 var crouching = false
 var sprinting = false
 var walking = false
-const SPEED = 3.0
+const SPEED = 2.0
 const SPRINT_MULT = 2
 const WALK_MULT = 0.3
 const CROUCH_MULT = 0.6
@@ -22,6 +24,7 @@ const THROW_STRENGTH = 5
 const STANDING_HEIGHT = 2
 const CROUCH_HEIGHT = 1
 const REACH = 3
+const BOB = 2
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -53,19 +56,20 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("Throw"):
 		throw()
 	# Handle Crouch
-	if Input.is_action_just_pressed("Crouch") and is_on_floor() and !crouching:
-		crouch()
-	if Input.is_action_just_released("Crouch"):
-		stop_crouch()
+	if Input.is_action_just_pressed("Crouch") and is_on_floor():
+		if !crouching:
+			crouch()
+		else:
+			stop_crouch()
 	# Handle Sprint
 	if Input.is_action_just_pressed("Sprint") and !crouching:
 		sprint()
-	if Input.is_action_just_released("Sprint"):
+	if Input.is_action_just_released("Sprint") and sprinting:
 		stop_sprint()
 	# Handle Walk
 	if Input.is_action_just_pressed("Walk"):
 		walk()
-	if Input.is_action_just_released("Walk"):
+	if Input.is_action_just_released("Walk") and walking:
 		stop_walk()
 	if Input.is_action_just_released("Swap"):
 		swap_item()
@@ -77,10 +81,20 @@ func _physics_process(delta):
 	if direction:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
+		
+		# Camera bob
+		delta_sum += delta
+		var camera_bob = floor(abs(input_dir.x) + abs(input_dir.y)) * delta_sum * BOB * speed
+		var target_translation = original_position + abs(Vector3.UP * sin(camera_bob) * 0.05)
+		Hand.position = target_translation
+		
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
-
+		delta_sum = 0
+		Hand.position = Hand.position.lerp(original_position, 0.5)
+	
+	
 	move_and_slide()
 
 func _input(event):
@@ -126,7 +140,10 @@ func walk():
 	
 func stop_walk():
 	walking = false
-	speed = SPEED
+	if crouching:
+		speed = SPEED * CROUCH_MULT
+	else:
+		speed = SPEED
 
 
 # ITEM HANDLING
