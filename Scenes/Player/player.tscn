@@ -10,10 +10,11 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6b3ky"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Hand")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Hand", "Inv")]
 script = ExtResource("1_1w47b")
 _bullet_scene = ExtResource("2_je25s")
 Hand = NodePath("Head/Camera3d/Hand")
+Inv = NodePath("Inventory")
 
 [node name="CollisionShape3d" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_emkox")

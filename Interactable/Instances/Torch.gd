@@ -17,7 +17,7 @@ func _ready():
 
 func interact(player): 
 	if !isHeld:
-		player.equip(self)
+		player.pickup(self)
 		
 
 func apply(_player, item):
