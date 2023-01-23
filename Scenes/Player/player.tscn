@@ -67,4 +67,3 @@ stream = ExtResource("6_n4ybu")
 volume_db = -4.0
 autoplay = true
 max_distance = 1.0
-bus = &"Player Sounds"
