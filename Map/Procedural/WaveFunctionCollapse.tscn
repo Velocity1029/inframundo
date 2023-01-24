@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://17ih2bloh470"]
+[gd_scene load_steps=7 format=3 uid="uid://17ih2bloh470"]
 
 [ext_resource type="Script" path="res://Map/Procedural/WaveFunctionCollapse.gd" id="1_verg7"]
 [ext_resource type="Script" path="res://Map/Procedural/WFC.gd" id="1_y6tl7"]
 [ext_resource type="PackedScene" uid="uid://cd8tfqnbndb5u" path="res://Map/Procedural/Reference.tscn" id="2_1ykq8"]
 [ext_resource type="MeshLibrary" uid="uid://ce0vqoy77p6qw" path="res://Map/dungeon.tres" id="3_3tg6c"]
+[ext_resource type="Script" path="res://camera.gd" id="5_t3rm2"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_w7qjx"]
 
@@ -45,3 +46,4 @@ mesh = SubResource("CylinderMesh_w7qjx")
 
 [node name="Camera3D" type="Camera3D" parent="Pointer"]
 transform = Transform3D(-1.09445e-07, 3.10188, -3.92152, 4.57034e-09, 0.156861, 0.124075, 5, -2.17163e-08, -1.56722e-07, -25.7839, 2.1612, 0)
+script = ExtResource("5_t3rm2")

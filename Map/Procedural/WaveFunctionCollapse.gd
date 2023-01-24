@@ -10,9 +10,10 @@ extends Node3D
 
 var grid = []
 # Used for recursive collapsing
-var current_node
+var current_superposition
 var relative_position
 var next_tile = null
+var next_tile_position = null
 var next_tile_len = INF
 
 # Called when the node enters the scene tree for the first time.
@@ -22,7 +23,6 @@ func _ready():
 func _process(_delta):
 	if Input.is_action_just_pressed("Shoot"):
 		var data = processor.process_reference()
-		print(data[1].neighbours)
 		work(data)
 		
 func work(data):
@@ -30,9 +30,32 @@ func work(data):
 	var lips = output.get_used_cells()
 	print(lips)
 	
-	for lip in lips:
-		grid[lip.x][lip.z] = output.get_cell_item(to_map(lip))
-		collapse(grid[lip.x][lip.z], lip.x, lip.z)
+	# Analyze and setup initial constraint cells
+	for cell in lips:
+		# Getting data
+		var mesh = output.get_cell_item(cell)
+		var rot = output.get_cell_item_orientation(cell) / 6
+		var proto = Prototype.new(mesh, rot)
+		# Assigning itself in neighbour list
+		#var neighbours = []
+		#neighbours.append(mesh)
+		#for i in tile_size-1:
+		#	neighbours.append(-1)
+		#proto.set_neighbours(neighbours)
+		
+		var start = grid[cell.x][cell.z]
+		current_superposition = proto
+		
+		start = start.filter(has_matching_mesh)#?
+		grid[cell.x][cell.z] = start
+		print(start)
+		
+		next_tile = start
+		next_tile_position = Vector3(cell.x,0,cell.z)
+		next_tile_len = len(start)
+		
+		while(next_tile != null):
+			collapse(next_tile, next_tile_position)
 	
 
 func setup_superposition(data):
@@ -46,26 +69,52 @@ func setup_superposition(data):
 			a.append(superposition)
 		grid.append(a)
 
-func collapse(node, x, z):
+func collapse(node, pos):
+	var x = pos.x
+	var z = pos.z
 	for i in tile_size:
 		for j in tile_size:
-			if i == 0 and j == 0 or node is float: continue
-			current_node = node
+			if i == 0 and j == 0 or node is float or x+i >= xRange or z+j >= zRange: continue
+			current_superposition = node
 			relative_position = i * tile_size + j
 			var neighbour = grid[x+i][z+j]
-			#print(grid)
-			print(neighbour)
-			neighbour.filter(has_current_node)
-			if len(neighbour) < next_tile_len:
-				next_tile = neighbour
-				next_tile_len = len(neighbour)
-
-func has_current_node(node):
-	print(node)
-	if node.neighbours[relative_position] == current_node:
-		return true
-	#collapse(node, )
+			#print(node)
+			#var new_neighbour = neighbour.filter(has_current_node)
+			var new_neighbour = neighbour.filter(is_possible_neighbour)
+			if new_neighbour != neighbour:
+				grid[x+i][z+j] = new_neighbour
+				
+				#Likely inefficient ?
+				collapse(new_neighbour, Vector3(x+i, 0, z+j))
+				
+				if len(new_neighbour) < next_tile_len:
+					next_tile = new_neighbour
+					next_tile_len = len(new_neighbour)
+##### NEED TO FILTER THE PROTOTYPES WHICH DO NOT OCCUR IN POSSIBILITIES OF THE CURRENT SUPERPOSITIOn IN THAT NEIGHBOUR
+# Relative is any of meshes in array of prototypes
+func is_possible_neighbour(prototype: Prototype):
+	for current_prototype in current_superposition:
+		if equivalent_mesh(prototype, current_prototype):
+			return true
 	return false
+	
+
+func has_current_node(prototype : Prototype):
+	if prototype.neighbours[relative_position] == current_superposition:
+		return true
+	#collapse(prototype, )
+	return false
+
+func has_matching_mesh(prototype : Prototype):
+
+	if equivalent_mesh(prototype, current_superposition):
+		print(prototype.mesh, " :)")
+		return true
+
+	return false
+
+func equivalent_mesh(p1, p2):
+	return p1.mesh == p2.mesh and p1.rotation == p2.rotation
 
 func to_map(v):
 	return output.local_to_map(output.to_local(v))
