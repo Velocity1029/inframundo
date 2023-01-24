@@ -56,6 +56,7 @@ func work(data):
 		
 		while(next_tile != null):
 			collapse(next_tile, next_tile_position)
+			pick_next_tile()
 	
 
 func setup_superposition(data):
@@ -78,6 +79,7 @@ func collapse(node, pos):
 			current_superposition = node
 			relative_position = i * tile_size + j
 			var neighbour = grid[x+i][z+j]
+			if (len(neighbour) == 1): continue
 			#print(node)
 			#var new_neighbour = neighbour.filter(has_current_node)
 			var new_neighbour = neighbour.filter(is_possible_neighbour)
@@ -90,6 +92,15 @@ func collapse(node, pos):
 				if len(new_neighbour) < next_tile_len:
 					next_tile = new_neighbour
 					next_tile_len = len(new_neighbour)
+					next_tile_position = pos
+
+func pick_next_tile():
+	var prototype = next_tile.pick_random()
+	prototype.print_self()
+	grid[next_tile_position.x][next_tile_position.z] = [prototype]
+	next_tile_len = INF
+	collapse(next_tile, next_tile_position)
+
 ##### NEED TO FILTER THE PROTOTYPES WHICH DO NOT OCCUR IN POSSIBILITIES OF THE CURRENT SUPERPOSITIOn IN THAT NEIGHBOUR
 # Relative is any of meshes in array of prototypes
 func is_possible_neighbour(prototype: Prototype):
