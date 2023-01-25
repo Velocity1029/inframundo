@@ -73,26 +73,34 @@ func setup_superposition(data):
 func collapse(node, pos):
 	var x = pos.x
 	var z = pos.z
+	# Positive Adjacency constraining
 	for i in tile_size:
 		for j in tile_size:
-			if i == 0 and j == 0 or node is float or x+i >= xRange or z+j >= zRange: continue
+			if i == 0 and j == 0: continue
+
 			current_superposition = node
 			relative_position = i * tile_size + j
-			var neighbour = grid[x+i][z+j]
-			if (len(neighbour) == 1): continue
-			#print(node)
-			#var new_neighbour = neighbour.filter(has_current_node)
-			var new_neighbour = neighbour.filter(is_possible_neighbour)
-			if new_neighbour != neighbour:
-				grid[x+i][z+j] = new_neighbour
-				
+			
+			if x+i < xRange and z+j < zRange:
+				var positive_neighbour = grid[x+i][z+j]
+				var new_positive_neighbour = positive_neighbour.filter(is_possible_neighbour)
+				if len(new_positive_neighbour) == 0: printerr("No possible prototypes!")
+
+			if x-i > -1 and z+j > -1:
+				var negative_neighbour = grid[x-i][z-j]
+				var new_negative_neighbour = negative_neighbour.filter(has_current_node)
+			
+			
+			#if new_neighbour != positive_neighbour:
+			#	grid[x+i][z+j] = new_neighbour
+			#	
+			#	if len(new_neighbour) < next_tile_len:
+			#		next_tile = new_neighbour
+			#		next_tile_len = len(new_neighbour)
+			#		next_tile_position = pos
 				#Likely inefficient ?
-				collapse(new_neighbour, Vector3(x+i, 0, z+j))
+			#	collapse(new_neighbour, Vector3(x+i, 0, z+j))
 				
-				if len(new_neighbour) < next_tile_len:
-					next_tile = new_neighbour
-					next_tile_len = len(new_neighbour)
-					next_tile_position = pos
 
 func pick_next_tile():
 	var prototype = next_tile.pick_random()
@@ -111,9 +119,9 @@ func is_possible_neighbour(prototype: Prototype):
 	
 
 func has_current_node(prototype : Prototype):
-	if prototype.neighbours[relative_position] == current_superposition:
-		return true
-	#collapse(prototype, )
+	for current_prototype in current_superposition:
+		if prototype.neighbours[relative_position] == current_prototype:
+			return true
 	return false
 
 func has_matching_mesh(prototype : Prototype):
