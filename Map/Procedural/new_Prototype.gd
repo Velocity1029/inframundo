@@ -1,38 +1,26 @@
-class_name Prototype
+class_name new_Prototype
 
 var mesh : int
 var rotation : int
-var sockets = {
-	"posX" : "-1",
-	"negX" : "-1",
-	"posY" : "-1",
-	"negY" : "-1",
-	"posZ" : "-1",
-	"negZ" : "-1"
-}
 var weight : int
-var neighbours = [-1,-1,-1,-1,-1,-1,-1,-1,-1,]
+var neighbours = [
+	#x  z -x -z  y -y
+	[],[],[],[],[],[]
+]
 var position : Vector3
 
 func _init(mesh:int = -1,
 	rotation : int = 0,
 	weight : int = 1,
-	position : Vector3 = Vector3(),
 	):
 	
 	self.mesh = mesh
 	self.rotation = rotation
-	self.sockets = {}
 	self.weight = weight
-	self.position = position
 	
-func set_sockets(x:String = "-1", x2:String = "-1", z:String = "-1", z2:String = "-1", y:String = "-1", y2:String = "-1"):
-	sockets.posX = x
-	sockets.negX = x2
-	sockets.posZ = z
-	sockets.negZ = z2
-	sockets.posY = y
-	sockets.negY = y2
+func add_neighbour(socket:int, neighbour):
+	if neighbour not in neighbours[socket]:
+		neighbours[socket].append(neighbour)
 	
 func set_mesh(mesh:int, rotation:int = 0, weight:int = 1):
 	self.mesh = mesh
@@ -44,5 +32,10 @@ func set_neighbours(n):
 	
 func print_self():
 	print("Mesh: ", mesh,", Rotation: ", rotation, ", Weight: ", weight, ", Position: ", position)
-	print("Sockets: ", sockets)
 	print("Neighbours: ", neighbours)
+
+func duplicate():
+	var duplicate = new_Prototype.new(self.mesh, self.rotation, self.weight)
+	duplicate.set_neighbours(self.neighbours)
+	
+	return duplicate

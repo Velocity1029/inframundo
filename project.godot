@@ -88,6 +88,26 @@ _global_script_classes=[{
 "class": &"WFCProcessor",
 "language": &"GDScript",
 "path": "res://Map/Procedural/WFC.gd"
+}, {
+"base": "RefCounted",
+"class": &"new_Prototype",
+"language": &"GDScript",
+"path": "res://Map/Procedural/new_Prototype.gd"
+}, {
+"base": "RefCounted",
+"class": &"new_Slot",
+"language": &"GDScript",
+"path": "res://Map/Procedural/new_Slot.gd"
+}, {
+"base": "GridMap",
+"class": &"new_WFC",
+"language": &"GDScript",
+"path": "res://Map/Procedural/new_WFC.gd"
+}, {
+"base": "GridMap",
+"class": &"new_WaveFunctionCollapse",
+"language": &"GDScript",
+"path": "res://Map/Procedural/new_WaveFunctionCollapse.gd"
 }]
 _global_script_class_icons={
 "Applicable": "",
@@ -105,7 +125,11 @@ _global_script_class_icons={
 "Prototype": "",
 "Takeable": "",
 "Torch": "",
-"WFCProcessor": ""
+"WFCProcessor": "",
+"new_Prototype": "",
+"new_Slot": "",
+"new_WFC": "",
+"new_WaveFunctionCollapse": ""
 }
 
 [application]

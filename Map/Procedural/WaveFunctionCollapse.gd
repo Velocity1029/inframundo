@@ -9,6 +9,7 @@ extends Node3D
 @export var tile_size = 3
 
 var grid = []
+var collapsed = []
 # Used for recursive collapsing
 var current_superposition
 var relative_position
@@ -22,8 +23,9 @@ func _ready():
 
 func _process(_delta):
 	if Input.is_action_just_pressed("Shoot"):
-		var data = processor.process_reference()
-		work(data)
+		pass
+		#var data = processor.process_reference()
+		#work(data)
 		
 func work(data):
 	setup_superposition(data)
@@ -43,18 +45,19 @@ func work(data):
 		#	neighbours.append(-1)
 		#proto.set_neighbours(neighbours)
 		
-		var start = grid[cell.x][cell.z]
+		var start = grid[cell.x+cell.z]
 		current_superposition = proto
 		
 		start = start.filter(has_matching_mesh)#?
-		grid[cell.x][cell.z] = start
+		grid[cell.x+cell.z] = start
 		print(start)
 		
 		next_tile = start
-		next_tile_position = Vector3(cell.x,0,cell.z)
+		next_tile_position = (cell.x * tile_size) + cell.z
 		next_tile_len = len(start)
-		
-		while(next_tile != null):
+		for a in 300:
+		#while(next_tile != null):
+			next_tile_len = INF
 			collapse(next_tile, next_tile_position)
 			pick_next_tile()
 	
@@ -65,33 +68,58 @@ func setup_superposition(data):
 		superposition.append(p)
 	print(superposition)
 	for x in xRange:
-		var a = []
 		for z in zRange:
-			a.append(superposition)
-		grid.append(a)
+			grid.append(superposition)
+			collapsed.append(false)
 
 func collapse(node, pos):
-	var x = pos.x
-	var z = pos.z
+	print("Collapse", pos)
+	var x = pos/tile_size
+	var z = pos%tile_size
 	# Positive Adjacency constraining
 	for i in tile_size:
 		for j in tile_size:
 			if i == 0 and j == 0: continue
+			else: 
+				current_superposition = node
+				relative_position = i * tile_size + j
+				
+				if x+i < xRange and z+j < zRange:
+					var index = x+i+z+j
+					var old_neighbour = grid[index].duplicate()
+					var new_neighbour = restrict_neighbour(old_neighbour)
+					if !collapsed[index]: #old_neighbour != new_neighbour and len(old_neighbour) != 1 and 
+						#collapsed[index] = true
+						grid[index] = new_neighbour
+						
+						print(index, " - ", len(new_neighbour), " : ", next_tile_len)
+						if len(new_neighbour) < next_tile_len and len(new_neighbour) > 0:
+							next_tile = new_neighbour
+							next_tile_len = len(new_neighbour)
+							next_tile_position = index
+							print("NEW NEXT: ",next_tile," ",next_tile_position)
+							
+						collapse(grid[index], index)
 
-			current_superposition = node
-			relative_position = i * tile_size + j
+				if x-i > -1 and z-j > -1:
+					var index = x-i+z-j
+					var old_neighbour = grid[index].duplicate()
+					var new_neighbour = restrict_neighbour(old_neighbour)
+					if !collapsed[index]: #old_neighbour != new_neighbour and len(old_neighbour) != 1 and 
+						#collapsed[index] = true
+						grid[index] = new_neighbour
+						
+						print(index, " - ", len(new_neighbour), " : ", next_tile_len)
+						if len(new_neighbour) < next_tile_len and len(new_neighbour) > 0:
+							next_tile = new_neighbour
+							next_tile_len = len(new_neighbour)
+							next_tile_position = index
+							print("NEW NEXT: ",next_tile," ",next_tile_position)
+						
+						if old_neighbour != new_neighbour:
+							collapse(grid[index], index)
 			
-			if x+i < xRange and z+j < zRange:
-				var positive_neighbour = grid[x+i][z+j]
-				var new_positive_neighbour = positive_neighbour.filter(is_possible_neighbour)
-				if len(new_positive_neighbour) == 0: printerr("No possible prototypes!")
-
-			if x-i > -1 and z+j > -1:
-				var negative_neighbour = grid[x-i][z-j]
-				var new_negative_neighbour = negative_neighbour.filter(has_current_node)
-			
-			
-			#if new_neighbour != positive_neighbour:
+			#if new_positive_neighbour != positive_neighbour:
 			#	grid[x+i][z+j] = new_neighbour
 			#	
 			#	if len(new_neighbour) < next_tile_len:
@@ -102,18 +130,36 @@ func collapse(node, pos):
 			#	collapse(new_neighbour, Vector3(x+i, 0, z+j))
 				
 
+func restrict_neighbour(neighbour):
+	print("RESTRICT NEIGHBOUR")
+	var new_neighbour = neighbour.filter(is_possible_neighbour)
+	if len(new_neighbour) == 0: 
+		printerr("No possible prototypes!")
+		new_neighbour = [Prototype.new()]
+	return new_neighbour
+
+
 func pick_next_tile():
+	if next_tile == null:
+		return
 	var prototype = next_tile.pick_random()
+	print("PICK NEXT TILE: ", next_tile_position, " ", prototype)
+	if prototype == null:
+		next_tile = null
+		return
 	prototype.print_self()
-	grid[next_tile_position.x][next_tile_position.z] = [prototype]
-	next_tile_len = INF
+	grid[next_tile_position] = [prototype]
+	collapsed[next_tile_position] = true
+	output.set_cell_item(Vector3(next_tile_position/tile_size, 0, next_tile_position%tile_size),prototype.mesh,prototype.rotation)
 	collapse(next_tile, next_tile_position)
 
 ##### NEED TO FILTER THE PROTOTYPES WHICH DO NOT OCCUR IN POSSIBILITIES OF THE CURRENT SUPERPOSITIOn IN THAT NEIGHBOUR
 # Relative is any of meshes in array of prototypes
 func is_possible_neighbour(prototype: Prototype):
 	for current_prototype in current_superposition:
-		if equivalent_mesh(prototype, current_prototype):
+		# Need to have comparison of mesh AND rotation, just doing mesh for now...
+		if current_prototype.neighbours[relative_position] == prototype.mesh:
+		#if equivalent_mesh(prototype, current_prototype):
 			return true
 	return false
 	

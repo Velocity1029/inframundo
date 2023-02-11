@@ -1,27 +1,39 @@
-[gd_scene load_steps=7 format=3 uid="uid://17ih2bloh470"]
+[gd_scene load_steps=9 format=3 uid="uid://17ih2bloh470"]
 
-[ext_resource type="Script" path="res://Map/Procedural/WaveFunctionCollapse.gd" id="1_verg7"]
-[ext_resource type="Script" path="res://Map/Procedural/WFC.gd" id="1_y6tl7"]
 [ext_resource type="PackedScene" uid="uid://cd8tfqnbndb5u" path="res://Map/Procedural/Reference.tscn" id="2_1ykq8"]
 [ext_resource type="MeshLibrary" uid="uid://ce0vqoy77p6qw" path="res://Map/dungeon.tres" id="3_3tg6c"]
+[ext_resource type="Script" path="res://Map/Procedural/new_WFC.gd" id="3_8as0u"]
+[ext_resource type="Script" path="res://Map/Procedural/new_WaveFunctionCollapse.gd" id="5_f61qi"]
 [ext_resource type="Script" path="res://camera.gd" id="5_t3rm2"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_w7qjx"]
 
-[node name="WaveFunctionCollapse" type="Node3D" node_paths=PackedStringArray("processor", "output")]
-script = ExtResource("1_verg7")
-processor = NodePath("WFCProcessor")
-output = NodePath("Output")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arl8h"]
+
+[sub_resource type="Environment" id="Environment_yddcg"]
+background_mode = 1
+background_color = Color(0.6, 0.768627, 0.866667, 1)
+background_energy_multiplier = 0.86
+ambient_light_color = Color(0.796078, 0.47451, 0.517647, 1)
+
+[node name="WaveFunctionCollapse" type="Node3D"]
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 
-[node name="Reference" parent="." instance=ExtResource("2_1ykq8")]
+[node name="Reference" parent="." node_paths=PackedStringArray("output", "pointer") instance=ExtResource("2_1ykq8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 20)
 data = {
-"cells": PackedInt32Array(1, 0, 1048611, 2, 0, 40, 1, 65535, 1441831, 0, 0, 36, 65535, 0, 37, 0, 65535, 1048609, 0, 65534, 1048602, 65535, 65535, 40, 65534, 65535, 39, 65534, 0, 655393, 65533, 0, 26, 65532, 0, 26, 65531, 0, 30, 65530, 65535, 1441822, 65530, 65534, 1441818, 65531, 2, 1048617, 65531, 1, 1441818, 65530, 0, 1048605, 65530, 65533, 1441824, 65529, 65535, 32, 0, 65533, 1048602, 0, 65532, 1048602, 0, 65531, 1441821, 65535, 65531, 655386, 65534, 65531, 1048605, 65534, 65530, 1441822, 65534, 65529, 1048606, 65533, 65530, 26, 65532, 65530, 31, 65532, 65529, 1048602, 65532, 65531, 1048602, 65531, 65530, 26, 65532, 65532, 655389, 65531, 65532, 655386, 65530, 65532, 1048605, 65530, 65531, 1048602, 65530, 65530, 29, 65532, 65528, 1441821, 65531, 65528, 1048605, 65531, 65527, 1441821, 65530, 65527, 41, 65535, 65529, 655386, 0, 65529, 655386, 65534, 1, 1048616, 65534, 2, 1048615, 65535, 2, 655399, 2, 1, 655396, 65535, 1, 35, 3, 1, 1441829, 2, 3, 1441828, 4, 1, 1441828, 4, 2, 1441828, 3, 3, 1441828, 4, 3, 1441829, 2, 2, 1441829, 3, 2, 1441828, 5, 1, 1441832, 5, 2, 1441832, 5, 3, 1441832, 4, 4, 655400, 2, 4, 655400, 3, 4, 1441825, 1, 3, 1048616, 1, 4, 1048615, 5, 4, 1441826, 6, 4, 655386, 5, 5, 1048602, 3, 5, 1048602, 3, 6, 1048608, 7, 4, 26, 1, 65529, 655401, 65534, 65528, 1441833, 8, 4, 655392, 5, 6, 1048617, 5, 0, 1441831, 3, 65535, 1048606, 4, 65535, 1441821, 4, 0, 1048609, 3, 0, 1048609, 3, 65534, 1441821, 2, 65534, 1048605, 2, 65533, 1441818, 2, 65532, 1441833, 1, 1, 1441827, 0, 1, 655400, 1, 2, 1048616)
+"cells": PackedInt32Array(1, 0, 1048611, 2, 0, 40, 1, 65535, 1441831, 0, 0, 36, 65535, 0, 37, 0, 65535, 1048609, 0, 65534, 1048602, 65535, 65535, 40, 65534, 65535, 39, 65534, 0, 655393, 65533, 0, 26, 65532, 0, 26, 65531, 0, 30, 65530, 65535, 1441822, 65530, 65534, 1441818, 65531, 2, 1048617, 65531, 1, 1441818, 65530, 0, 1048605, 65530, 65533, 1441833, 65529, 65535, 32, 0, 65533, 1048602, 0, 65532, 1048602, 0, 65531, 1441821, 65535, 65531, 655386, 65534, 65531, 1048605, 65534, 65530, 1441822, 65534, 65529, 1048606, 65533, 65530, 26, 65532, 65530, 31, 65532, 65529, 1048602, 65532, 65531, 1048602, 65531, 65530, 26, 65532, 65532, 655389, 65531, 65532, 655386, 65530, 65532, 1048605, 65530, 65531, 1048602, 65530, 65530, 29, 65532, 65528, 1441821, 65531, 65528, 1048605, 65531, 65527, 1441821, 65530, 65527, 41, 65535, 65529, 655386, 0, 65529, 655386, 65534, 1, 1048616, 65534, 2, 1048615, 65535, 2, 655399, 2, 1, 655396, 65535, 1, 35, 3, 1, 1441829, 2, 3, 1441828, 4, 1, 1441828, 4, 2, 1441828, 3, 3, 1441828, 4, 3, 1441829, 2, 2, 1441829, 3, 2, 1441828, 5, 1, 1441832, 5, 2, 1441832, 5, 3, 1441832, 4, 4, 655400, 2, 4, 655400, 3, 4, 1441825, 1, 3, 1048616, 1, 4, 1048615, 5, 4, 1441826, 6, 4, 655386, 5, 5, 1048602, 3, 5, 1048602, 3, 6, 1048608, 7, 4, 26, 1, 65529, 655401, 65534, 65528, 1441833, 8, 4, 655392, 5, 6, 1048617, 5, 0, 1441831, 3, 65535, 1048606, 4, 65535, 1441821, 4, 0, 1048609, 3, 0, 1048609, 3, 65534, 1441821, 2, 65534, 1048605, 2, 65533, 1441818, 2, 65532, 1441833, 1, 1, 1441827, 0, 1, 655400, 1, 2, 1048616)
 }
+script = ExtResource("3_8as0u")
+output = NodePath("../Output")
+pointer = NodePath("../Pointer")
+mirrors = false
+nodeSizeX = 2
+nodeSizeZ = 2
+wait = 0.01
 
-[node name="Output" type="GridMap" parent="."]
+[node name="Output" type="GridMap" parent="." node_paths=PackedStringArray("processor")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40)
 mesh_library = ExtResource("3_3tg6c")
 cell_size = Vector3(2, 1, 2)
@@ -31,19 +43,28 @@ cell_center_z = false
 data = {
 "cells": PackedInt32Array(0, 0, 32)
 }
+script = ExtResource("5_f61qi")
+processor = NodePath("../Reference")
+xRange = 2
+zRange = 2
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="WFCProcessor" type="Node3D" parent="." node_paths=PackedStringArray("reference", "pointer")]
-script = ExtResource("1_y6tl7")
-reference = NodePath("../Reference")
-pointer = NodePath("../Pointer")
-nodeSizeX = 2
-nodeSizeZ = 2
+[node name="WFCProcessor" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-2.1889e-08, 0.620376, -0.784305, 2.28517e-08, 0.784305, 0.620376, 1, -4.34329e-09, -3.13443e-08, -5.15678, 10.806, 19.214)
+script = ExtResource("5_t3rm2")
 
 [node name="Pointer" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 5, 0, 0, 0, 0.2, 0, 0, 19.214)
 mesh = SubResource("CylinderMesh_w7qjx")
+surface_material_override/0 = SubResource("StandardMaterial3D_arl8h")
 
-[node name="Camera3D" type="Camera3D" parent="Pointer"]
-transform = Transform3D(-1.09445e-07, 3.10188, -3.92152, 4.57034e-09, 0.156861, 0.124075, 5, -2.17163e-08, -1.56722e-07, -25.7839, 2.1612, 0)
-script = ExtResource("5_t3rm2")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_yddcg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+light_color = Color(0.960784, 0.945098, 0.882353, 1)
+light_energy = 2.517
+light_indirect_energy = 11.0
+light_volumetric_fog_energy = 0.0

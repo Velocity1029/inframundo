@@ -39,6 +39,8 @@ func _ready():
 	
 	prototypes.append(Prototype.new())
 	
+	print(prototypes)
+	
 	for i in xRange:
 		var a = []
 		for j in zRange:
